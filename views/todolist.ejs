@@ -1,0 +1,64 @@
+<h1 class="mb-3">Edit TODO list <strong><%= todoListID %></strong></h1>
+<form action="/todolist/edit/<%= todoListID %>" method="POST">
+  <div id="todo-inputs">
+    <% if(todos != undefined) { %>
+      <% todos.forEach(todo => { %>
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" name="todoCheckbox" <%= todo.done ? 'checked' : '' %>>
+          <input type="hidden" name="todoCheckboxValue" value="<%= todo.done ? 'yes' : 'no' %>">
+          <label class="form-check-label ml-2" for="todoCheckbox" contenteditable="true">
+            <%= todo.description %>
+          </label>
+          <input type="hidden" name="todoLabel" value="<%= todo.description %>">
+          <button type="button" class="btn btn-sm btn-danger ml-4 rem-btn">X</button>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+  <div class="btns mt-5">
+    <button class="btn btn-warning btn-lg op-btn" id="add-btn" type="button">+</button>
+    <input type="submit" value="Submit" class="btn btn-lg btn-primary">
+  </div>
+</form>
+
+<script>
+  const addBtn = document.querySelector('#add-btn');
+  const remBtn = document.querySelector('#rem-btn');
+
+  const addEventListeners = todoEl => {
+    todoEl
+      .querySelector('.form-check-label')
+      .addEventListener('input', e => {
+        e.target.parentElement.children[3].value = e.target.innerText;
+      });
+
+    todoEl
+      .querySelector('.form-check-input')
+      .addEventListener('input', e => {
+        e.target.parentElement.children[1].value = e.target.checked ? 'yes' : 'no';
+      });
+
+    todoEl
+      .querySelector('.rem-btn')
+      .addEventListener('click', e => {
+        e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+      });
+  }
+
+  document.querySelectorAll('.form-check').forEach(el => addEventListeners(el));
+
+  addBtn.addEventListener('click', () => {
+    const newInput = `
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" name="todoCheckbox">
+          <input type="hidden" name="todoCheckboxValue" value="no">
+          <label class="form-check-label ml-2" for="todoCheckbox" contenteditable="true">
+            TODO Description
+          </label>
+          <input type="hidden" name="todoLabel" value="TODO Description">
+          <button type="button" class="btn btn-sm btn-danger ml-4 rem-btn">X</button>
+        </div>`;
+    document.querySelector('#todo-inputs').insertAdjacentHTML('beforeend', newInput);
+    document.querySelectorAll('.form-check').forEach(el => addEventListeners(el));
+  })
+</script>
