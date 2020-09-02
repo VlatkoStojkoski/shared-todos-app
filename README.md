@@ -2,8 +2,8 @@
 
 Make sure you have node.js and the node package manager installed
 
-- Clone repo locally `git clone https://github.com/VlatkoStojkoski/express-mongoose-app.git`
-- Move to folder `cd express-mongoose-app`
+- Clone repo locally `git clone https://github.com/VlatkoStojkoski/shared-todos-app.git`
+- Move to folder `cd shared-todos-app`
 - Install required packages `npm install`
 
 ## Setup
